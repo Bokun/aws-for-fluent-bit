@@ -1,0 +1,21 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+# Use a package of configuration called an orb.
+orbs:
+  # Declare a dependency on the welcome-orb
+  aws-ecr: circleci/aws-ecr@6.15.1# Orchestrate or schedule a set of jobs
+
+jobs:
+  build-fluent-bit:
+    steps:
+      - run:
+          name: Build Fluent-Bit image
+          command: |
+            make release
+            docker images
+
+
+workflows:
+  build_and_push_image:
+    jobs:
+      - build-fluent-bit
