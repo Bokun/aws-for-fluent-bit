@@ -21,3 +21,8 @@
   239  git rebase --continue
   240  git status
   241  git pull
+
+
+go build -ldflags "-s -w -X github.com/grafana/loki/pkg/build.Branch=master       -X github.com/grafana/loki/pkg/build.Version=master-5dffd20 -X github.com/grafana/loki/pkg/build.Revision=5dffd20c -X github.com/grafana/loki/pkg/build.BuildUser=albertg@REY-LGMXN2EMJG -X github.com/grafana/loki/pkg/build.BuildDate=2020-12-16T14:04:31Z" -tags netgo -mod=vendor -buildmode=c-shared -o cmd/fluent-bit/out_loki.so ./cmd/fluent-bit/
+go build -ldflags "-s -w -X github.com/grafana/loki/pkg/build.Branch=heads/v2.0.0 -X github.com/grafana/loki/pkg/build.Version=2.0.0          -X github.com/grafana/loki/pkg/build.Revision=6978ee5d -X github.com/grafana/loki/pkg/build.BuildUser=root@                  -X github.com/grafana/loki/pkg/build.BuildDate=2020-12-16T13:45:39Z" -tags netgo -mod=vendor -buildmode=c-shared -o cmd/fluent-bit/out_loki.so ./cmd/fluent-bit/
+go build -ldflags "-s -w -X github.com/Bokun/loki/pkg/build.Branch=heads/v2.0.0-1.6.8 -X github.com/Bokun/loki/pkg/build.Version=heads-v2.0.0-1.6.8-67e3c4c -X github.com/Bokun/loki/pkg/build.Revision=67e3c4cd -X github.com/Bokun/loki/pkg/build.BuildUser=root -X github.com/Bokun/loki/pkg/build.BuildDate=2020-12-16T14:24:31Z" -tags netgo -mod=vendor -buildmode=c-shared -o cmd/fluent-bit/out_loki.so ./cmd/fluent-bit/

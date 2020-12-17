@@ -26,21 +26,21 @@ cloudwatch-dev:
 	--no-cache -t aws-fluent-bit-plugins:latest -f Dockerfile.plugins .
 	docker build -t amazon/aws-for-fluent-bit:latest -f Dockerfile .
 
-.PHONY: firehose-dev
-firehose-dev:
-	docker build \
-	--build-arg FIREHOSE_PLUGIN_CLONE_URL=${FIREHOSE_PLUGIN_CLONE_URL} \
-	--build-arg FIREHOSE_PLUGIN_BRANCH=${FIREHOSE_PLUGIN_BRANCH} \
-	--no-cache -t aws-fluent-bit-plugins:latest -f Dockerfile.plugins .
-	docker build -t amazon/aws-for-fluent-bit:latest -f Dockerfile .
-
-.PHONY: kinesis-dev
-kinesis-dev:
-	docker build \
-	--build-arg KINESIS_PLUGIN_CLONE_URL=${KINESIS_PLUGIN_CLONE_URL} \
-	--build-arg KINESIS_PLUGIN_BRANCH=${KINESIS_PLUGIN_BRANCH} \
-	--no-cache -t aws-fluent-bit-plugins:latest -f Dockerfile.plugins .
-	docker build -t amazon/aws-for-fluent-bit:latest -f Dockerfile .
+#.PHONY: firehose-dev
+#firehose-dev:
+#	docker build \
+#	--build-arg FIREHOSE_PLUGIN_CLONE_URL=${FIREHOSE_PLUGIN_CLONE_URL} \
+#	--build-arg FIREHOSE_PLUGIN_BRANCH=${FIREHOSE_PLUGIN_BRANCH} \
+#	--no-cache -t aws-fluent-bit-plugins:latest -f Dockerfile.plugins .
+#	docker build -t amazon/aws-for-fluent-bit:latest -f Dockerfile .
+#
+#.PHONY: kinesis-dev
+#kinesis-dev:
+#	docker build \
+#	--build-arg KINESIS_PLUGIN_CLONE_URL=${KINESIS_PLUGIN_CLONE_URL} \
+#	--build-arg KINESIS_PLUGIN_BRANCH=${KINESIS_PLUGIN_BRANCH} \
+#	--no-cache -t aws-fluent-bit-plugins:latest -f Dockerfile.plugins .
+#	docker build -t amazon/aws-for-fluent-bit:latest -f Dockerfile .
 
 .PHONY: loki-dev
 loki-dev:
@@ -62,21 +62,21 @@ integ-cloudwatch-dev: cloudwatch-dev
 integ-clean-cloudwatch:
 	./integ/integ.sh clean-cloudwatch
 
-.PHONY: integ-kinesis
-integ-kinesis: release
-	./integ/integ.sh kinesis
-
-.PHONY: integ-kinesis-dev
-integ-kinesis-dev: kinesis-dev
-	./integ/integ.sh kinesis
-
-.PHONY: integ-firehose
-integ-firehose: release
-	./integ/integ.sh firehose
-
-.PHONY: integ-firehose-dev
-integ-firehose-dev: firehose-dev
-	./integ/integ.sh firehose
+#.PHONY: integ-kinesis
+#integ-kinesis: release
+#	./integ/integ.sh kinesis
+#
+#.PHONY: integ-kinesis-dev
+#integ-kinesis-dev: kinesis-dev
+#	./integ/integ.sh kinesis
+#
+#.PHONY: integ-firehose
+#integ-firehose: release
+#	./integ/integ.sh firehose
+#
+#.PHONY: integ-firehose-dev
+#integ-firehose-dev: firehose-dev
+#	./integ/integ.sh firehose
 
 .PHONY: integ-loki
 integ-loki: release
@@ -92,8 +92,8 @@ integ-clean-s3:
 
 .PHONY: integ-dev
 integ-dev: release
-	./integ/integ.sh kinesis
-	./integ/integ.sh firehose
+#	./integ/integ.sh kinesis
+#	./integ/integ.sh firehose
 	./integ/integ.sh cloudwatch
 	./integ/integ.sh loki
 

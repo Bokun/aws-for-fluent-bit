@@ -3,42 +3,45 @@ RUN curl -sL -o /bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/mas
 RUN chmod +x /bin/gimme
 RUN yum upgrade -y && yum install -y tar gzip git make gcc
 ENV HOME /home
-RUN /bin/gimme 1.13
-ENV PATH ${PATH}:/home/.gimme/versions/go1.13.linux.arm64/bin:/home/.gimme/versions/go1.13.linux.amd64/bin
+RUN /bin/gimme 1.15
+ENV PATH ${PATH}:/home/.gimme/versions/go1.15.linux.arm64/bin:/home/.gimme/versions/go1.15.linux.amd64/bin
 RUN go version
 ENV GO111MODULE on
 RUN go env -w GOPROXY=direct
 
-ARG KINESIS_PLUGIN_CLONE_URL=https://github.com/aws/amazon-kinesis-streams-for-fluent-bit.git
-ARG KINESIS_PLUGIN_TAG=v1.7.1
-ARG KINESIS_PLUGIN_BRANCH=""
-ARG FIREHOSE_PLUGIN_CLONE_URL=https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit.git
-ARG FIREHOSE_PLUGIN_TAG=v1.5.1
-ARG FIREHOSE_PLUGIN_BRANCH=""
+#ARG KINESIS_PLUGIN_CLONE_URL=https://github.com/aws/amazon-kinesis-streams-for-fluent-bit.git
+#ARG KINESIS_PLUGIN_TAG=v1.7.1
+#ARG KINESIS_PLUGIN_BRANCH=""
+#ARG FIREHOSE_PLUGIN_CLONE_URL=https://github.com/aws/amazon-kinesis-firehose-for-fluent-bit.git
+#ARG FIREHOSE_PLUGIN_TAG=v1.5.1
+#ARG FIREHOSE_PLUGIN_BRANCH=""
 ARG CLOUDWATCH_PLUGIN_CLONE_URL=https://github.com/aws/amazon-cloudwatch-logs-for-fluent-bit.git
 ARG CLOUDWATCH_PLUGIN_TAG=v1.6.0
 ARG CLOUDWATCH_PLUGIN_BRANCH=""
-# ARG LOKI_PLUGIN_CLONE_URL=https://github.com/Bokun/loki.git
-ARG LOKI_PLUGIN_CLONE_URL=https://github.com/grafana/loki.git
-ARG LOKI_PLUGIN_BRANCH=master
+ARG LOKI_PLUGIN_CLONE_URL=https://github.com/Bokun/loki.git
+#ARG LOKI_PLUGIN_CLONE_URL=https://github.com/grafana/loki.git
+ARG LOKI_PLUGIN_BRANCH="master"
+ARG LOKI_PLUGIN_TAG=""
+#ARG LOKI_PLUGIN_TAG=v2.0.0-1.6.8
+
 
 # Kinesis Streams
 
-RUN git clone $KINESIS_PLUGIN_CLONE_URL /kinesis-streams
-WORKDIR /kinesis-streams
-RUN if [ -n "$KINESIS_PLUGIN_BRANCH" ];then git fetch --all && git checkout $KINESIS_PLUGIN_BRANCH && git remote -v;fi
-RUN if [ -z "$KINESIS_PLUGIN_BRANCH" ];then git fetch --all --tags && git checkout tags/$KINESIS_PLUGIN_TAG -b $KINESIS_PLUGIN_TAG && git describe --tags;fi
-RUN go mod download
-RUN make release
+#RUN git clone $KINESIS_PLUGIN_CLONE_URL /kinesis-streams
+#WORKDIR /kinesis-streams
+#RUN if [ -n "$KINESIS_PLUGIN_BRANCH" ];then git fetch --all && git checkout $KINESIS_PLUGIN_BRANCH && git remote -v;fi
+#RUN if [ -z "$KINESIS_PLUGIN_BRANCH" ];then git fetch --all --tags && git checkout tags/$KINESIS_PLUGIN_TAG -b $KINESIS_PLUGIN_TAG && git describe --tags;fi
+#RUN go mod download
+#RUN make release
 
 # Firehose
 
-RUN git clone $FIREHOSE_PLUGIN_CLONE_URL /kinesis-firehose
-WORKDIR /kinesis-firehose
-RUN if [ -n "$FIREHOSE_PLUGIN_BRANCH" ];then git fetch --all && git checkout $FIREHOSE_PLUGIN_BRANCH && git remote -v;fi
-RUN if [ -z "$FIREHOSE_PLUGIN_BRANCH" ];then git fetch --all --tags && git checkout tags/$FIREHOSE_PLUGIN_TAG -b $FIREHOSE_PLUGIN_TAG && git describe --tags;fi
-RUN go mod download
-RUN make release
+#RUN git clone $FIREHOSE_PLUGIN_CLONE_URL /kinesis-firehose
+#WORKDIR /kinesis-firehose
+#RUN if [ -n "$FIREHOSE_PLUGIN_BRANCH" ];then git fetch --all && git checkout $FIREHOSE_PLUGIN_BRANCH && git remote -v;fi
+#RUN if [ -z "$FIREHOSE_PLUGIN_BRANCH" ];then git fetch --all --tags && git checkout tags/$FIREHOSE_PLUGIN_TAG -b $FIREHOSE_PLUGIN_TAG && git describe --tags;fi
+#RUN go mod download
+#RUN make release
 
 # CloudWatch
 
@@ -53,8 +56,10 @@ RUN make release
 
 RUN git clone $LOKI_PLUGIN_CLONE_URL /loki
 WORKDIR /loki
-RUN git fetch && git checkout $LOKI_PLUGIN_BRANCH
-# RUN go mod download
+# RUN git fetch && git checkout $LOKI_PLUGIN_BRANCH
+RUN if [ -n "$LOKI_PLUGIN_BRANCH" ];then git fetch --all && git checkout $LOKI_PLUGIN_BRANCH && git remote -v;fi
+RUN if [ -z "$LOKI_PLUGIN_BRANCH" ];then git fetch --all --tags && git checkout tags/$LOKI_PLUGIN_TAG -b $LOKI_PLUGIN_TAG && git describe --tags;fi
+RUN go mod download
 RUN make fluent-bit-plugin
 # go build $(DYN_GO_FLAGS) -buildmode=c-shared -o cmd/fluent-bit/out_loki.so ./cmd/fluent-bit/
 
