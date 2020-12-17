@@ -7,6 +7,8 @@ orbs:
 
 jobs:
   build-fluent-bit:
+    docker:
+      - image: archlinux/base
     steps:
       - run:
           name: Build Fluent-Bit image
