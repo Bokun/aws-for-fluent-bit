@@ -5,7 +5,7 @@ version: 2.1
 #  aws-ecr: circleci/aws-ecr@6.15.1
 
 jobs:
-  build-fluent-bit:
+  build:
     docker:
       - image: cimg/base:2020.12
     steps:
@@ -13,6 +13,8 @@ jobs:
       - run:
           name: Build Fluent-Bit image
           command: |
+            docker version
+            docker images
             make release
             docker images
 
@@ -20,4 +22,4 @@ jobs:
 workflows:
   build_and_push_image:
     jobs:
-      - build-fluent-bit
+      - build
