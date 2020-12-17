@@ -24,12 +24,17 @@ jobs:
             make release
             docker images
             docker tag amazon/aws-for-fluent-bit:latest $AWS_ECR_DOMAIN/$AWS_ECR_NAME:$CIRCLE_SHA1
+            docker images
+      - save_cache:
+          key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
+          paths:
+            - ~/.
       - aws-ecr/ecr-login:
           account-url: AWS_ECR_DOMAIN
       - aws-ecr/push-image:
           account-url: AWS_ECR_DOMAIN
           repo: aws-for-fluent-bit-test
-          tag: $AWS_ECR_DOMAIN/$AWS_ECR_NAME:$CIRCLE_SHA1
+          tag: $CIRCLE_SHA1
       - save_cache:
           key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
           paths:
