@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-            key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
+          key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
       - setup_remote_docker:
           version: 19.03.13
           docker_layer_caching: true
@@ -32,7 +32,8 @@ jobs:
           tag: $AWS_ECR_DOMAIN/$AWS_ECR_NAME:$CIRCLE_SHA1
       - save_cache:
           key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
-
+          paths:
+            - ~/.
 
 workflows:
   build_image:
