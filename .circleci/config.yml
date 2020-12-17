@@ -21,7 +21,7 @@ jobs:
             docker images
             make release
             docker images
-            docker tag amazon/aws-for-fluent-bit:latest aws-for-fluent-bit:123
+            docker tag amazon/aws-for-fluent-bit:latest 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:123
             docker images
       - aws-ecr/ecr-login:
           account-url: AWS_ECR_DOMAIN
