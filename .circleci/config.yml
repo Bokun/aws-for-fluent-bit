@@ -23,7 +23,7 @@ jobs:
             docker images
             make release
             docker images
-            docker tag amazon/aws-for-fluent-bit:latest $AWS_ECR_DOMAIN/$AWS_ECR_NAME:123
+            docker tag amazon/aws-for-fluent-bit:latest aws-for-fluent-bit:123
             docker images
       - save_cache:
           key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
