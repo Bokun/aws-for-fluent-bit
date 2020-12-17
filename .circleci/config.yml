@@ -10,8 +10,6 @@ jobs:
       - image: cimg/base:2020.12
     steps:
       - checkout
-      - restore_cache:
-          key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
       - setup_remote_docker:
           version: 19.03.13
           docker_layer_caching: true
@@ -25,20 +23,12 @@ jobs:
             docker images
             docker tag amazon/aws-for-fluent-bit:latest aws-for-fluent-bit:123
             docker images
-      - save_cache:
-          key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
-          paths:
-            - ~/.
       - aws-ecr/ecr-login:
           account-url: AWS_ECR_DOMAIN
       - aws-ecr/push-image:
           account-url: AWS_ECR_DOMAIN
-          repo: aws-for-fluent-bit-test
+          repo: aws-for-fluent-bit
           tag: "123"
-      - save_cache:
-          key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
-          paths:
-            - ~/.
 
 workflows:
   build_image:
