@@ -10,6 +10,8 @@ jobs:
       - image: cimg/base:2020.12
     steps:
       - checkout
+      - restore_cache:
+            key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
       - setup_remote_docker:
           version: 19.03.13
           docker_layer_caching: true
@@ -28,9 +30,13 @@ jobs:
           account-url: AWS_ECR_DOMAIN
           repo: aws-for-fluent-bit-test
           tag: $AWS_ECR_DOMAIN/$AWS_ECR_NAME:$CIRCLE_SHA1
+      - save_cache:
+          key: build-{{ .Environment.CIRCLE_PROJECT_REPONAME }}-{{ .Branch }}-{{ checksum "Makefile" }}
 
 
 workflows:
   build_image:
     jobs:
-      - build
+      - build:
+          context: nvirginia-test
+
