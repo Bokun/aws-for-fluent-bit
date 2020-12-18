@@ -21,7 +21,7 @@ jobs:
             docker images
             docker images
             docker tag amazon/aws-for-fluent-bit:latest 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
-            docker tag amazon/aws-for-fluent-bit:latest ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/${AWS_ECR_NAME}:$CIRCLE_SHA1
+            docker tag amazon/aws-for-fluent-bit:latest ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_SHA1
             docker images
       - aws-ecr/ecr-login:
           account-url: AWS_ECR_DOMAIN
