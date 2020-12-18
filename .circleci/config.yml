@@ -19,16 +19,21 @@ jobs:
           command: |
             docker version
             docker images
-            make release
+#            make release
             docker images
             docker tag amazon/aws-for-fluent-bit:latest 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
             docker images
+#            aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_DOMAIN
       - aws-ecr/ecr-login:
           account-url: AWS_ECR_DOMAIN
-      - aws-ecr/push-image:
-          account-url: AWS_ECR_DOMAIN
-          repo: '${AWS_ECR_NAME}'
-          tag: '${$CIRCLE_BUILD_NUM}'
+      - run:
+          name: Push to ECR
+          command: |
+            docker push 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
+#      - aws-ecr/push-image:
+#          account-url: AWS_ECR_DOMAIN
+#          repo: '${AWS_ECR_NAME}'
+#          tag: '${$CIRCLE_BUILD_NUM}'
 
 workflows:
   build_image:
