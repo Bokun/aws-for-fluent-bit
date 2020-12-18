@@ -32,7 +32,7 @@ jobs:
       - aws-ecr/push-image:
           account-url: AWS_ECR_DOMAIN
           repo: '${AWS_ECR_NAME}'
-          tag: '${$CIRCLE_BUILD_NUM}'
+          tag: $CIRCLE_BUILD_NUM
 
 workflows:
   build_image:
