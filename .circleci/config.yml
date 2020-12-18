@@ -19,16 +19,13 @@ jobs:
       - run:
           name: Build Fluent-Bit image
           command: |
-            docker version
-            docker images
-            docker images
-            docker tag amazon/aws-for-fluent-bit:latest 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
-            docker tag amazon/aws-for-fluent-bit:latest ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_SHA1
+            make release
+            docker tag amazon/aws-for-fluent-bit:latest ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
             docker images
       - run:
           name: Push to ECR
           command: |
-            docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_SHA1
+            docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
       - aws-ecr/push-image:
           account-url: AWS_ECR_DOMAIN
           repo: 'aws-for-fluent-bit'
@@ -42,6 +39,7 @@ workflows:
 
 #            make release
 #            aws ecr get-login-password --region $AWS_REGION --profile default | docker login --username AWS --password-stdin $AWS_ECR_DOMAIN
+#            docker tag amazon/aws-for-fluent-bit:latest 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
 #            docker push 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
 #      - aws-ecr/push-image:
 #          account-url: AWS_ECR_DOMAIN
