@@ -22,10 +22,6 @@ jobs:
             make release
             docker tag amazon/aws-for-fluent-bit:latest ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
             docker images
-      - run:
-          name: Push to ECR
-          command: |
-            docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
       - aws-ecr/push-image:
           account-url: AWS_ECR_DOMAIN
           repo: 'aws-for-fluent-bit'
@@ -45,3 +41,7 @@ workflows:
 #          account-url: AWS_ECR_DOMAIN
 #          repo: '${AWS_ECR_NAME}'
 #          tag: '${$CIRCLE_BUILD_NUM}'
+#      - run:
+#          name: Push to ECR
+#          command: |
+#            docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
