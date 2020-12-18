@@ -29,6 +29,7 @@ jobs:
           name: Push to ECR
           command: |
             docker push 991828066748.dkr.ecr.us-east-1.amazonaws.com/aws-for-fluent-bit:$CIRCLE_BUILD_NUM
+            docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/${AWS_ECR_NAME}:$CIRCLE_SHA1
 
 workflows:
   build_image:
