@@ -31,7 +31,7 @@ jobs:
             docker push ${AWS_ACCOUNT}.dkr.ecr.${AWS_REGION}.amazonaws.com/aws-for-fluent-bit:$CIRCLE_SHA1
       - aws-ecr/push-image:
           account-url: AWS_ECR_DOMAIN
-          repo: '${AWS_ECR_NAME}'
+          repo: 'aws-for-fluent-bit'
           tag: $CIRCLE_BUILD_NUM
 
 workflows:
